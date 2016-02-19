@@ -140,7 +140,7 @@ public class MicroprocessorSimulation {
 
 	public static void main(String[] args) {
 		String inputFile = "mach.in.txt";
-		int lineNum = 4;
+		int lineNum = 3;
 		MicroprocessorSimulation ms = new MicroprocessorSimulation(inputFile, lineNum);
 	}
 }
