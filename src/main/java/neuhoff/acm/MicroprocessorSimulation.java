@@ -12,31 +12,32 @@ public class MicroprocessorSimulation {
 	private int accA;
 	private int accB;
 
-	public MicroprocessorSimulation(String fileName) {
+	public MicroprocessorSimulation(String fileName, int lineNum) {
 		memory = new int[256];
 
 		try {
-			readInCode(fileName);
+			readInCode(fileName, lineNum);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void readInCode(String file) throws FileNotFoundException {
+	private void readInCode(String file, int lineNum) throws FileNotFoundException {
 		Scanner in = new Scanner(new File(file));
-
+		
+		//while(in.hasNext())
 		String val = null;
-		do {
+		do{
 			val = in.next();
-			String[] temp = val.split("");
-			for (int i = 0; i < 256; i++) {
-				memory[i] = convertHexToDec(temp[i]);
-			}
-			in.close();
-			translateCode();
-			System.out.println();
-		} while (memory[0] != 8);
-		//System.exit(0);
+			lineNum--;
+		}while(lineNum > 0);
+		
+		String[] temp = val.split("");
+		for (int i = 0; i < 256; i++) {
+			memory[i] = convertHexToDec(temp[i]);
+		}
+		in.close();
+		translateCode();
 	}
 
 	private void translateCode() {
@@ -75,8 +76,9 @@ public class MicroprocessorSimulation {
 				if (accA == 0) {
 					i = memory[i + 1] * 16 + memory[i + 2];
 					i--;
-				} else {
-					i += 2;
+				}
+				else{
+					i+=2;
 				}
 				break;
 			case 7:
@@ -85,6 +87,7 @@ public class MicroprocessorSimulation {
 				break;
 			case 8:
 				getOutput();
+				System.exit(0);
 			}
 		}
 	}
@@ -103,41 +106,29 @@ public class MicroprocessorSimulation {
 			return Integer.parseInt(val);
 		} else {
 			switch (val) {
-			case "A":
-				return 10;
-			case "B":
-				return 11;
-			case "C":
-				return 12;
-			case "D":
-				return 13;
-			case "E":
-				return 14;
-			case "F":
-				return 15;
+			case "A": return 10;
+			case "B": return 11;
+			case "C": return 12;
+			case "D": return 13;
+			case "E": return 14;
+			case "F": return 15;
 			}
 		}
 		return -1;
 	}
-
+	
 	private String convertDecToHex(int val) {
 
 		if (val >= 0 && val < 10) {
 			return String.valueOf(val);
 		} else {
 			switch (val) {
-			case 10:
-				return "A";
-			case 11:
-				return "B";
-			case 12:
-				return "C";
-			case 13:
-				return "D";
-			case 14:
-				return "E";
-			case 15:
-				return "F";
+			case 10: return "A";
+			case 11: return "B";
+			case 12: return "C";
+			case 13: return "D";
+			case 14: return "E";
+			case 15: return "F";
 			}
 		}
 		return null;
@@ -145,6 +136,7 @@ public class MicroprocessorSimulation {
 
 	public static void main(String[] args) {
 		String inputFile = "mach.in.txt";
-		MicroprocessorSimulation ms = new MicroprocessorSimulation(inputFile);
+		int lineNum = 4;
+		MicroprocessorSimulation ms = new MicroprocessorSimulation(inputFile, lineNum);
 	}
 }
