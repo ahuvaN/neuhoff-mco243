@@ -1,7 +1,11 @@
 package neuhoff.acm;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -19,23 +23,41 @@ public class MicroprocessorSimulation {
 			readInCode(fileName/* , lineNum */);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
 	private void readInCode(String file/* , int lineNum */)
-			throws FileNotFoundException {
-		Scanner in = new Scanner(new File(file));
+			throws IOException {
+		
+			 //BufferedReader br = new BufferedReader(
+			 //new FileReader(file));
 
-		while (memory[0] != 8) {
-			String val = in.next();
-			String[] temp = val.split("");
-			for (int i = 0; i < 256; i++) {
-				memory[i] = convertHexToDec(temp[i]);
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					System.in));
+			
+			while (memory[0] != 8) {
+				String val = br.readLine();
+				String[] temp = val.split("");
+				for (int i = 0; i < 256; i++) {
+					memory[i] = convertHexToDec(temp[i]);
+				}
+				translateCode();
 			}
-			translateCode();
-		}
-		in.close();
-		System.exit(0);
+			br.close();
+			System.exit(0);
+			/*String line;
+			while ((line = reader.readLine()) != null) {
+				memory = new Memory(line);
+				processor = new Microprocessor(memory);
+
+				for (char m : memory.getMemory()) {
+					System.out.print(m);
+				}
+				System.out.println("\n");
+
+			}*/		
 	}
 
 	private void translateCode() {
