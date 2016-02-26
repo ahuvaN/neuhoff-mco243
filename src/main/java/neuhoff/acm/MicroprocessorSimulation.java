@@ -47,17 +47,6 @@ public class MicroprocessorSimulation {
 			}
 			br.close();
 			System.exit(0);
-			/*String line;
-			while ((line = reader.readLine()) != null) {
-				memory = new Memory(line);
-				processor = new Microprocessor(memory);
-
-				for (char m : memory.getMemory()) {
-					System.out.print(m);
-				}
-				System.out.println("\n");
-
-			}*/		
 	}
 
 	private void translateCode() {
